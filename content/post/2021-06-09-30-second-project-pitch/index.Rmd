@@ -1,10 +1,39 @@
 ---
-title: 30 - Second Project Pitch
+title: Capstone Project Proposal
 author: Donald Ruud
-date: '2021-06-09'
-slug: 30-second-project-pitch
+date: '2021-06-16'
+slug: capstone-project-proposal
 categories: []
 tags: []
 ---
 
-My project is centered on Data Science articles. These articles contain information on what is currently happening in our industry and how we talk about it. We primarily use theory to determine what trends are up and coming in our industry. I believe we can approach this from a more systematic perspective. We should perform a text analysis on Data Science articles published over the past 5 years (maybe 10?) so that we can visualize the most prominent topics and better understand how our industry has developed.
+# Under Construction...
+
+
+# Overview
+
+My project is centered on Data Science articles. These articles contain information on what is currently happening in our industry and how we talk about it. We primarily use theory to determine what trends are up and coming in our industry. I believe we can approach this from a more systematic perspective. We should perform a text analysis on Data Science articles published over the past 20 years so that we can visualize the most prominent topics and better understand how our industry has developed. Through this visualization we may be able to draw critical insights about where our industry is headed.
+
+# Context
+
+This Bio-technology company grows cell cultures in reactors which can take between 60 and 90 days to reach maturity. Once a cell culture has matured, specific proteins are harvested to be sold to pharmaceutical clients. Essentially, this company is able to grow specific proteins which are crucial to pharmaceutical development and production. The reactors are constantly monitored by lab personnel and the cell environment is tightly controlled as far as nutrients, waste removal, and environmental exposure are concerned.
+
+Lactate is a chemical waste product which is produced during anaerobic respiration in the cell cultures. If lactate levels become too high and remain high in a reactor for an extended period of time, the cell culture dies. When a cell culture dies the protein cannot be harvested and the culture must be regrown from the beginning. All the time and resources spent growing and monitoring the culture are irrecoverable.
+
+# Proposal
+
+What drives lactate levels?
+
+There are two ways I can approach this question with modeling. I can leave lactate as a continuous variable and apply various models from multiple linear regression to decision trees. Alternatively, I can work with the client to determine a point at which lactate can be considered elevated and transform it into a classification problem. At this time I intend on keeping both options open until I've had a chance to explore the data.
+
+Before I dive into any modeling, I'll need to explore and thoroughly clean my dataset. Then I can begin a cycle of feature engineering and model testing to identify the best performing model. I still have yet to get my hands on the dataset, but it should consist largely of numerical data. I expect there to be some categorical variables perhaps identifying the specific reactor a culture is growing in. There will also be a substantial time component in the data since each sample provides data on a given day of growth. The final step in my methodology is to run the best model against the test set and begin analyzing the results.
+
+No matter which approach I select, I will need to ensure that the models I apply to the data are explainable. The goal is to identify the key drivers of lactate levels and as such, simply predicting lactate levels is insufficient. While this requirement does force me to exclude unsupervised models, there are still many options out there which are likely to perform quite well. I hope to find perhaps two to three variables which stand out among the others as strong indicators of lactate levels which I can bring to the company as suggested areas to examine for process modification.
+
+# Conclusion
+
+Pre-mature cell culture death costs this Bio-technology company time, labor, and materials. A significant number of the culture deaths can be attributed to unexpected, elevated lactate levels within the culture. By building a model which can effectively predict lactate levels, we can identify other variables which have an outsized effect on lactate. These variables can be used to identify failures within the process so that effective countermeasures can be deployed.
+
+The generalizability of this project is somewhat limited but not entirely absent. This project is specific to this lab as it does focus on their data. While the results of the analysis cannot be effectively transferred to another company, the analysis process can. Another company could use the same framework to analyze their own data and determine drivers of lactate within their own systems.
+
+This project is limited to essentially problem identification. The model will tell us what drives lactate, but it won't tell us how to address those drivers. The next step is to look closely at the main drivers and determine how they can be changed to help reduce further instances of elevated lactate levels. That particular step falls more under the domain of process improvement. Once specific countermeasures have been created, it would be possible to devise an experiment and see if the countermeasures actually succeed in reducing instances of elevated lactate levels.
