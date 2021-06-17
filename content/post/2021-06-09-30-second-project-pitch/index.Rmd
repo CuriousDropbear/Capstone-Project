@@ -1,8 +1,8 @@
 ---
-title: Capstone Project Proposal
+title: 30 - Second Project Pitch
 author: Donald Ruud
 date: '2021-06-16'
-slug: capstone-project-proposal
+slug: 30-second-project-pitch
 categories: []
 tags: []
 ---
