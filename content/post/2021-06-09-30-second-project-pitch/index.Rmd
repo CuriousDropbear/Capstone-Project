@@ -1,6 +1,6 @@
 ---
-title: 30 - Second Project Pitch
-author: Donald Ruud
+title: "30 - Second Project Pitch"
+author: "Donald Ruud"
 date: '2021-06-16'
 slug: 30-second-project-pitch
 categories: []
