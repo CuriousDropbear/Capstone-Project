@@ -1,0 +1,37 @@
+---
+title: Project Blog Post Draft
+author: Donald Ruud
+date: '2021-07-28'
+slug: project-blog-post-draft
+categories:
+  - R
+tags:
+  - R Markdown
+---
+
+
+Project Blog Post Draft
+
+Modified 30-sec hook
+	Include any big revelations.
+	Include link to finished dashboard.
+Article Roadmap
+	Show folks what the post will cover and provide jump-to links.
+Background of project
+	Discuss inspiration.
+	Discuss impact.
+	Discuss goal.
+Background of applied methods
+	Basic description of text analysis
+	Basic description of PCA
+Data Acquisition, Cleaning, Exploration
+	Quick markdown code walk-through (cliff notes version)
+	Discuss theoretical and practical cleaning decisions made.
+	Any major findings from exploration?
+Application of method
+	Markdown code walk-through of method application
+	Discuss initial findings.
+Finished Dashboard
+	Display findings in polished graphical form
+	Use R-Shiny to dev interactive dashboard with various graphs.
+	Brief discussion on the results, ideally the visuals will do most of the talking.
