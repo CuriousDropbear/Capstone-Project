@@ -47,6 +47,13 @@ ggplot(data = prc_month_avg, aes(x = Month_Yr, y = Female_STEM_month, group = 1)
   geom_line(aes(y = Healthcare_month), color = "red") +
   geom_line(aes(y = Self_Driving_Cars_month), color = "green")
 ```
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(data = prc_month_avg, aes(x = Month_Yr, y = Female_Education_Not_Cybersecurity_month, group = 1)) +
+  geom_line() +
+  geom_line(aes(y = Cutting_Edge_Computing_month), color = "blue") +
+  geom_line(aes(y = US_Cybersecurity_month), color = "red") +
+  geom_line(aes(y = UX_month), color = "green")
+```
 
 
 Include link to finished dashboard. Dashboard is not finished at this time.
