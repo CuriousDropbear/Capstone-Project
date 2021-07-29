@@ -9,29 +9,75 @@ tags:
   - R Markdown
 ---
 
+```{r echo=FALSE}
+library(tidyverse)
+mega_abstract <- read_csv("C:/Users/Donald/Documents/Willamette University/Capstone/mega_abstract")
+testing2 <- read_csv("C:/Users/Donald/Documents/Willamette University/Capstone/finaldatasetPCA")
+```
 
-Project Blog Post Draft
 
-Modified 30-sec hook
-	Include any big revelations.
-	Include link to finished dashboard.
-Article Roadmap
-	Show folks what the post will cover and provide jump-to links.
-Background of project
-	Discuss inspiration.
-	Discuss impact.
-	Discuss goal.
-Background of applied methods
-	Basic description of text analysis
-	Basic description of PCA
-Data Acquisition, Cleaning, Exploration
-	Quick markdown code walk-through (cliff notes version)
-	Discuss theoretical and practical cleaning decisions made.
-	Any major findings from exploration?
-Application of method
-	Markdown code walk-through of method application
-	Discuss initial findings.
-Finished Dashboard
-	Display findings in polished graphical form
-	Use R-Shiny to dev interactive dashboard with various graphs.
-	Brief discussion on the results, ideally the visuals will do most of the talking.
+
+## Project Blog Post Draft
+
+My project is centered on Data Science articles. These articles contain information on what is currently happening in our industry and how we talk about it. We primarily use theory to determine what trends are up and coming in our industry. I believe we can approach this from a more systematic perspective. We should perform a text analysis on Data Science articles published over the past 20 years so that we can visualize the most prominent topics and better understand how our industry has developed. Through this visualization we may be able to draw critical insights about where our industry is headed.  
+
+*There appears to be significant changes over time in the main collections of words.*  
+*Add graphs of trends over time*
+
+Include link to finished dashboard. Dashboard is not finished at this time.
+
+
+## Article Roadmap
+
+Background  
+Data Acquisition, Cleaning, and Exploration  
+Process  
+Dashboard  
+
+
+## Background
+
+Data Science is a relatively new industry that has only recently begun to solidify. We can trace elements of Data Science far back into history, but only within the past few decades has computing technology advanced enough to make widespread statistical analyses feasible. Data Science as a field has shifted a lot over the past 20 years. Specifically, the way we talk about Data Science and the various concepts that are important.  
+
+What is the problem? Currently, we base our thoughts on the “next big thing” in Data Science on theory. Theory in of itself is not a bad place to start, but it’s not always right when it comes to predicting changes in the industry. We need to make sure that we are prepared as industry professionals to use and understand new technology as it emerges. Being behind the curve in Data Science can seriously hamper your capabilities.  
+
+The ultimate goal of this project is to generate an interactive dashboard using R-Shiny which allows the user to explore the most prevalent words throughout the sampled time period. Additionally, I hope to provide some general insights about how industry terminology has evolved over time on the default display of the app.  
+*This should be expanded further*
+
+
+## Process
+
+I intend to scrape text data from the abstracts of a newsletter related to Data Science over a period of approximately 20 year. I'll start off by doing some more general text analysis on the article titles themselves. Then I can move into more complex methods and apply Principle Component Analysis (PCA) to aid in the analysis of each article’s abstract. I intend to generate a language consistency score which can then be visualized over time to show how industry language has shifted.  
+
+Before I dive into any modeling, I’ll need to explore and thoroughly clean my dataset. Since I’m scraping the data from the internet I will need to do an extensive amount of text processing before it is in a useable format. Once I have everything clean, it should be fairly simple to analyze it and generate the relevant graphs.  
+
+
+## Data Acquisition, Cleaning, Exploration
+
+Quick markdown code walk-through (cliff notes version)  
+*Still need to condense code to minimal levels. May be valuable to simply describe the cleaning process instead.*
+
+Any major findings from exploration?  
+The scraper did not do a perfect job collecting all the article information. There are occasional instances where nearly a month of data is missing.
+*Go into more detail on what data is missing. Potentially explore* **why** *it's missing.*
+
+
+
+## Application of method
+
+Markdown code walk-through of method application  
+*May consider just describing method and providing intermediate visuals*  
+
+Discuss initial findings.
+*Still in-progress. Would be a good idea to show trends over time here*
+
+## Finished Dashboard
+
+Display findings in polished graphical form  
+*The* **cool** *graphs are still in development.*
+
+Use R-Shiny to dev interactive dashboard with various graphs.
+*The Shiny app is still under development and I'm not sure exactly how to integrate it into R-Markdown just yet.*  
+
+Brief discussion on the results, ideally the visuals will do most of the talking.  
+*Nothing to discuss just yet. I'm still digging into the results.*
