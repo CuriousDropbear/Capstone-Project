@@ -9,12 +9,11 @@ tags:
   - R Markdown
 ---
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 library(tidyverse)
 mega_abstract <- read_csv("C:/Users/Donald/Documents/Willamette University/Capstone/mega_abstract")
-testing2 <- read_csv("C:/Users/Donald/Documents/Willamette University/Capstone/finaldatasetPCA")
+prc <- read_csv("C:/Users/Donald/Documents/Willamette University/Capstone/finaldatasetPCA")
 ```
-
 
 
 ## Project Blog Post Draft
@@ -23,6 +22,32 @@ My project is centered on Data Science articles. These articles contain informat
 
 *There appears to be significant changes over time in the main collections of words.*  
 *Add graphs of trends over time*
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(lubridate)
+# Trying to average to the month level to tease out trends
+prc_month_avg <- prc
+prc_month_avg$Month_Yr <- format(as.Date(prc_month_avg$testdate2), "%Y-%m")
+
+
+prc_month_avg <- prc_month_avg%>%
+  group_by(Month_Yr) %>%
+  summarise(Female_STEM_month = mean(Female_STEM),
+            Users_Not_Microchips_month = mean(Users_Not_Microchips),
+            Female_Education_Not_Cybersecurity_month = mean(Female_Education_Not_Cybersecurity),
+            Cutting_Edge_Computing_month = mean(Cutting_Edge_Computing),
+            Self_Driving_Cars_month = mean(Self_Driving_Cars),
+            US_Cybersecurity_month = mean(US_Cybersecurity),
+            UX_month = mean(UX),
+            Healthcare_month = mean(Healthcare))
+
+# Works and you can see trends. This is the foundation of the trends portion.
+ggplot(data = prc_month_avg, aes(x = Month_Yr, y = Female_STEM_month, group = 1)) +
+  geom_line() +
+  geom_line(aes(y = Users_Not_Microchips_month), color = "blue") +
+  geom_line(aes(y = Healthcare_month), color = "red") +
+  geom_line(aes(y = Self_Driving_Cars_month), color = "green")
+```
+
 
 Include link to finished dashboard. Dashboard is not finished at this time.
 
