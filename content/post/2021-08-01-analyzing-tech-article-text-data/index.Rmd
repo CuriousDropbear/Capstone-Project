@@ -124,10 +124,7 @@ PCA is typically used for dimensionality reduction (*reducing the number variabl
 But, I'm not trying to write a post on the intricate details of PCA so **back to the analysis!**  
 
 
-## Data Acquisition, Cleaning, and Exploration
-
-Quick markdown code walk-through (cliff notes version)  
-*Still need to condense code to minimal levels. May be valuable to simply describe the cleaning process instead.*
+## Data Acquisition, Cleaning, and Exploration  
 
 As mentioned earlier, these data have been scraped from https://technews.acm.org/ and cover a period from December 2007 to June 2021. If you haven't scraped data or dealt with scraped data before, I'll tell you a little secret, it's **incredibly messy.** What, you don't believe me? Take a look at the raw abstracts:
 
@@ -135,6 +132,7 @@ As mentioned earlier, these data have been scraped from https://technews.acm.org
 library(knitr)
 kable(head(abstract$x, 2))
 ```  
+
 *End Output*  
 
 Yep, it's not the prettiest sight. There's a lot of cleaning to be done in order to pull out dates, titles, and the abstracts. I'm not going to bore you with a full code walk-through of all the cleaning though. Instead, let's both just enjoy the beauty of the finished version:
@@ -164,15 +162,15 @@ Well it's pretty clear from the graph that the scraper was not able to capture e
 
 
 ## Results  
-######*Let's analyze some data!*
+###### *Let's analyze some data!*  
 
+We'll start off by looking at an animated word cloud of all title words on a day by day basis. From this we might be able to figure out which words tend to appear more often.  
 
+### Day by Day Word Cloud
+![](https://i.imgur.com/9AisQbG.gif)  
 
-Markdown code walk-through of method application  
-*May consider just describing method and providing intermediate visuals*  
-
-Discuss initial findings.
-*Still in-progress. Would be a good idea to show trends over time here*
+Hmmm, not bad. It's a little difficult to figure out what appears most often though. "Data" and "computer" are certainly very prominent throughout the animation.  
+Let's try looking at the top 10 most used title words overall instead. That should help us get a better sense of what the most referenced topics are and how they've changed over time. We're looking at the top 10 title words because generally, an article's title is a good way to figure out what the topic is.  
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 # Find the top 10 words that appear in the most articles
@@ -180,12 +178,6 @@ top_10 <- title_tib %>%
   distinct(word, .keep_all = TRUE) %>%
   arrange(desc(total)) %>%
   head(10)
-top_10
-  # computer, data, researchers, ai, quantum, research, computing, science, software, tech
-```
-
-
-```{r echo=FALSE, warning=FALSE, message=FALSE}
 # Create bar graph
 colors <- c("#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#fb9a99", "#e31a1c", "#fdbf6f", "#ff7f00", "#cab2d6", "#6a3d9a")
 
@@ -198,8 +190,11 @@ ggplot(data = top_10, aes(x = reorder(word, -total), y = total, fill = colors)) 
   ggtitle("Top 10 Words Across Articles From 2007 to 2021") +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
         text = element_text(size = 14))
-```
+```  
 
+After doing a bit of filtering and some plotting we can see that "computer" and "data" top our list of the most used title words just like in the word cloud. This is not necessarily unexpected since it makes sense that a tech newsletter would cover both those topics prominently.  
+
+Let's see how these words have become more or less prevalent in article titles over time.
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 # Create graph of top 10 over the entire time period
@@ -213,8 +208,9 @@ ggplot(data = top_10_over_time, aes(x = testdate2, y = n)) +
   xlab("Date") +
   ylab("Word Usage") +
   ggtitle("Top 10 Words Cumulative Usage Over Time")
-```
+```  
 
+We see word usage spike around 2010 or 2011 for our top 10, after which the group declines and maintains a slightly elevated position. Overall, the group does appear to be gaining ground, but that could be caused by one or two specific words. Let's find out!  
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 # Separated Usage (smoothed)
@@ -225,38 +221,78 @@ ggplot(data = top_10_over_time, aes(x = testdate2, y = n)) +
   xlab("Date") +
   ylab("Word Usage") +
   ggtitle("Top 10 Words Usage Over Time")
+```  
+
+Interestingly enough, the upward trend seen in the cumulative graph appears to be caused almost exclusively by "ai". If you look closely, "quantum" also appears to have contributed to the overall upward trend. Almost all of the other top 10 words have remained consistent in their usage or have declined slightly. This could be an early indicator of a change in the most referenced topics, but it's probably too soon to tell.  
+
+Now seems like the perfect time to try something a little more complex. Let's run a PCA on the abstracts and plot the results.
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(lubridate)
+library(plotly)
+# Trying to average to the month level to tease out trends
+prc_month_avg <- prc
+prc_month_avg$Month_Yr <- format(as.Date(prc_month_avg$testdate2), "%Y-%m")
+
+
+prc_month_avg <- prc_month_avg%>%
+  group_by(Month_Yr) %>%
+  summarise(Female_STEM_month = mean(Female_STEM),
+            Users_Not_Microchips_month = mean(Users_Not_Microchips),
+            Female_Education_Not_Cybersecurity_month = mean(Female_Education_Not_Cybersecurity),
+            Cutting_Edge_Computing_month = mean(Cutting_Edge_Computing),
+            Self_Driving_Cars_month = mean(Self_Driving_Cars),
+            US_Cybersecurity_month = mean(US_Cybersecurity),
+            UX_month = mean(UX),
+            Healthcare_month = mean(Healthcare))
+
+colors <- c("Female_STEM" = "#1b9e77", "Users_Not_Microchips" = "#d95f02", "Healthcare" = "#7570b3", "Self_Driving_Cars" = "#e7298a", "Female_Education_Not_Cybersecurity" = "#66a61e", "Cutting_Edge_Computing" = "#e6ab02", "US_Cybersecurity" = "#a6761d", "UX" = "#666666")
+
+
+pc_plot <- ggplot(data = prc_month_avg, aes(x = parse_date_time(Month_Yr, "ym"), y = Female_STEM_month, group = 1)) +
+  geom_smooth(aes(color = "Female_STEM"), se = FALSE) +
+  geom_smooth(aes(y = Users_Not_Microchips_month, color = "Users_Not_Microchips"), se = FALSE) +
+  geom_smooth(aes(y = Healthcare_month, color = "Healthcare"), se = FALSE) +
+  geom_smooth(aes(y = Self_Driving_Cars_month, color = "Self_Driving_Cars"), se = FALSE) +
+  geom_smooth(aes(y = Female_Education_Not_Cybersecurity_month, color = "Female_Education_Not_Cybersecurity"), se = FALSE) +
+  geom_smooth(aes(y = Cutting_Edge_Computing_month, color = "Cutting_Edge_Computing"), se = FALSE) +
+  geom_smooth(aes(y = US_Cybersecurity_month, color = "US_Cybersecurity"), se = FALSE) +
+  geom_smooth(aes(y = UX_month, color = "UX"), se = FALSE) +
+  theme_classic() +
+  ylab("Category Strength") +
+  xlab("Time") +
+  labs(color = "Legend") +
+  scale_color_manual(values = colors) +
+  ggtitle("Cybersecurity Captures the Minds of Tech Writers")
+
+ggplotly(pc_plot)
+```  
+
+
+1. Cyber Security has been a scorching hot topic recently and looks like it may continue to be.  
+2. Articles that **ignore** silicon manufacturing and **emphasize** users and identifiers have been consistently strong and appear to be getting stronger.  
+3. Cutting Edge Computing was building steadily until about 2014 when everyone realized that quantum computers were still 10-15 years away and got sad.  
+4. Interest in Cutting Edge Computing recently soared again and appears to have a strong upward trend in tech discussions.  
+
+
+
+
+
+
+
+
+
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+# Find the top 10 words that appear in the most articles
+top_10 <- title_tib %>%
+  distinct(word, .keep_all = TRUE) %>%
+  arrange(desc(total)) %>%
+  head(10)
+top_10 %>%
+  select(word, total) %>%
+  kable()
+  # computer, data, researchers, ai, quantum, research, computing, science, software, tech
 ```
-
-![](https://i.imgur.com/9AisQbG.gif)
-
-
-
-
-
-
-Include link to finished dashboard. Dashboard is not finished at this time.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Finished Dashboard
-
-Display findings in polished graphical form  
-*The* **cool** *graphs are still in development.*
-
-Use R-Shiny to dev interactive dashboard with various graphs.
-*The Shiny app is still under development and I'm not sure exactly how to integrate it into R-Markdown just yet.*  
-
-Brief discussion on the results, ideally the visuals will do most of the talking.  
-*Nothing to discuss just yet. I'm still digging into the results.*
