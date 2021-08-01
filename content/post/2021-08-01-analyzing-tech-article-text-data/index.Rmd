@@ -75,15 +75,15 @@ ggplotly(pc_plot)
 There you go. This is the crown jewel of the project.  
 Wait, you want me to actually explain something to you? I can't just throw up this graph to satisfy the impatient among you?  
 Fine, here are the highlights:  
-* Cyber Security has been a scorching hot topic recently and looks like it may continue to be.
-* Articles that **ignore** silicon manufacturing and **emphasize** users and identifiers have been consistently strong and appear to be getting stronger.
-* Cutting Edge Computing was building steadily until about 2014 when everyone realized that quantum computers are still 10-15 years away and got sad.
+* Cyber Security has been a scorching hot topic recently and looks like it may continue to be.  
+* Articles that **ignore** silicon manufacturing and **emphasize** users and identifiers have been consistently strong and appear to be getting stronger.  
+* Cutting Edge Computing was building steadily until about 2014 when everyone realized that quantum computers are still 10-15 years away and got sad.  
   + Interest in Cutting Edge Computing has soared again and appears to have a strong upward trend in tech discussions.  
 
 #### Time to dive into the details!
 
 ## Article Roadmap  
-*Ha! Got you! Here's what I'll be covering so you don't get lost.*
+###### *Ha! Got you! Here's what I'll be covering so you don't get lost.*
 
 [Background]  
 [Process]  
@@ -92,7 +92,7 @@ Fine, here are the highlights:
 
 
 ## Background  
-*Now we can actually get into the details.*
+###### *Now we can actually get into the details.*
 
 Data Science is a relatively new industry that has only recently begun to solidify. We can trace elements of Data Science far back into history, but only within the past few decades has computing technology advanced enough to make widespread statistical analyses feasible. Data Science as a field has shifted a lot over the past 20 years. Specifically, the way we talk about Data Science and the various concepts that are important.  
 
