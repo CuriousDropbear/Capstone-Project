@@ -1,12 +1,10 @@
 ---
-title: Project Blog Post Draft
-author: Donald Ruud
+title: "Project Blog Post Draft"
+author: "Donald Ruud"
 date: '2021-07-28'
 slug: project-blog-post-draft
-categories:
-  - R
-tags:
-  - R Markdown
+categories: R
+tags: R Markdown
 ---
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
@@ -81,7 +79,23 @@ ggplot(data = top_10_over_time, aes(x = testdate2, y = n)) +
   ggtitle("Top 10 Words Usage Over Time")
 ```
 
-```{r echo=FALSE, warning=FALSE, message=FALSE}
+![](https://i.imgur.com/9AisQbG.gif)
+
+```{r eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE, cache=TRUE}
+library(ggwordcloud)
+library(gganimate)
+# Time to try plotting
+set.seed(42)
+static_wc <- title_tib_day %>%
+  ggplot(aes(label = word, size = n)) +
+  # Try adjusting area_corr_power higher is smaller, lower is bigger
+  geom_text_wordcloud_area(area_corr_power = 1) +
+  scale_size_area(max_size = 24) +
+  theme_classic()
+
+dynamic_wc <- static_wc +
+  transition_states(states = testdate2, state_length = 0.75)
+animate(dynamic_wc, fps = 1, width = 500, height = 500, end_pause = 30)
 
 ```
 
