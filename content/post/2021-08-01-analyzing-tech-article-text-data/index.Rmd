@@ -12,6 +12,7 @@ library(tidyverse)
 mega_abstract <- read_csv("C:/Users/Donald/Documents/Willamette University/Capstone/mega_abstract")
 prc <- read_csv("C:/Users/Donald/Documents/Willamette University/Capstone/finaldatasetPCA")
 title_tib <- read_csv("C:/Users/Donald/Documents/Willamette University/Capstone/title_tib")
+abstract <- read_csv("C:/Users/Donald/Documents/Willamette University/Capstone/abstractdirty")
 # Summarize to the day level
 title_tib_day <- title_tib %>%
   group_by(testdate2, word) %>%
@@ -75,14 +76,15 @@ ggplotly(pc_plot)
 There you go. This is the crown jewel of the project.  
 Wait, you want me to actually explain something to you? I can't just throw up this graph to satisfy the impatient among you?  
 Fine, here are the highlights:  
-- Cyber Security has been a scorching hot topic recently and looks like it may continue to be.  
-- Articles that **ignore** silicon manufacturing and **emphasize** users and identifiers have been consistently strong and appear to be getting stronger.  
-- Cutting Edge Computing was building steadily until about 2014 when everyone realized that quantum computers are still 10-15 years away and got sad. Interest in Cutting Edge Computing has soared again and appears to have a strong upward trend in tech discussions.  
+1. Cyber Security has been a scorching hot topic recently and looks like it may continue to be.  
+2. Articles that **ignore** silicon manufacturing and **emphasize** users and identifiers have been consistently strong and appear to be getting stronger.  
+3. Cutting Edge Computing was building steadily until about 2014 when everyone realized that quantum computers were still 10-15 years away and got sad.  
+4. Interest in Cutting Edge Computing recently soared again and appears to have a strong upward trend in tech discussions.  
 
 #### Time to dive into the details!
 
 ## Article Roadmap  
-###### *Ha! Got you! Here's what I'll be covering so you don't get lost.*
+###### *Ha! Got you! No details just yet, but I got you this cool roadmap so you don't get lost!*
 
 [Background]  
 [Process]  
@@ -119,6 +121,29 @@ PCA is typically used for dimensionality reduction (*reducing the number variabl
 But, I'm not trying to write a post on the intricate details of PCA so **back to the analysis!**  
 
 
+## Data Acquisition, Cleaning, and Exploration
+
+Quick markdown code walk-through (cliff notes version)  
+*Still need to condense code to minimal levels. May be valuable to simply describe the cleaning process instead.*
+
+As mentioned earlier, these data have been scraped from https://technews.acm.org/ and cover a period from December 2007 to June 2021. If you haven't scraped data or dealt with scraped data before, I'll tell you a little secret, it's **incredibly messy.** What, you don't believe me? Take a look at the raw abstracts:
+
+```{r warning=FALSE, echo=FALSE}
+head(abstract$x, 2)
+```  
+
+Yep, it's not the prettiest sight. There's a lot of cleaning to be done in order to pull out dates, titles, and the abstracts. I'm not going to bore you with a full code walk-through of all the cleaning though. Instead, let's both just enjoy the beauty of the finished version:
+
+```{r warning=FALSE, echo=FALSE}
+mega_abstract %>%
+  select(cleantitle, testdate2, cleanab) %>%
+  head()
+```
+
+
+Any major findings from exploration?  
+The scraper did not do a perfect job collecting all the article information. There are occasional instances where nearly a month of data is missing.
+*Go into more detail on what data is missing. Potentially explore* **why** *it's missing.*
 
 *There appears to be significant changes over time in the main collections of words.*  
 *Add graphs of trends over time*
@@ -193,14 +218,7 @@ Include link to finished dashboard. Dashboard is not finished at this time.
 
 
 
-## Data Acquisition, Cleaning, and Exploration
 
-Quick markdown code walk-through (cliff notes version)  
-*Still need to condense code to minimal levels. May be valuable to simply describe the cleaning process instead.*
-
-Any major findings from exploration?  
-The scraper did not do a perfect job collecting all the article information. There are occasional instances where nearly a month of data is missing.
-*Go into more detail on what data is missing. Potentially explore* **why** *it's missing.*
 
 
 
