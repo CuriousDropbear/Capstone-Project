@@ -13,6 +13,11 @@ tags:
 library(tidyverse)
 mega_abstract <- read_csv("C:/Users/Donald/Documents/Willamette University/Capstone/mega_abstract")
 prc <- read_csv("C:/Users/Donald/Documents/Willamette University/Capstone/finaldatasetPCA")
+title_tib <- read_csv("C:/Users/Donald/Documents/Willamette University/Capstone/title_tib")
+# Summarize to the day level
+title_tib_day <- title_tib %>%
+  group_by(testdate2, word) %>%
+  summarise(n = sum(n))
 ```
 
 
@@ -22,8 +27,69 @@ My project is centered on Data Science articles. These articles contain informat
 
 *There appears to be significant changes over time in the main collections of words.*  
 *Add graphs of trends over time*
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+# Find the top 10 words that appear in the most articles
+top_10 <- title_tib %>%
+  distinct(word, .keep_all = TRUE) %>%
+  arrange(desc(total)) %>%
+  head(10)
+top_10
+  # computer, data, researchers, ai, quantum, research, computing, science, software, tech
+```
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+# Create bar graph
+colors <- c("#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#fb9a99", "#e31a1c", "#fdbf6f", "#ff7f00", "#cab2d6", "#6a3d9a")
+
+ggplot(data = top_10, aes(x = reorder(word, -total), y = total, fill = colors)) +
+  geom_col() +
+  theme_classic() +
+  theme(legend.position = "none") +
+  xlab(element_blank()) +
+  ylab("Total") +
+  ggtitle("Top 10 Words Across Articles From 2007 to 2021") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+        text = element_text(size = 14))
+```
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+# Create graph of top 10 over the entire time period
+filter_words <- c("computer", "data", "researchers", "ai", "quantum", "research", "computing", "science", "software", "tech")
+top_10_over_time <- title_tib_day %>%
+  filter(word %in% filter_words)
+# Combined Usage (smoothed)
+ggplot(data = top_10_over_time, aes(x = testdate2, y = n)) +
+  geom_smooth(size = 1.25, se = FALSE) +
+  theme_classic() +
+  xlab("Date") +
+  ylab("Word Usage") +
+  ggtitle("Top 10 Words Cumulative Usage Over Time")
+```
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+# Separated Usage (smoothed)
+ggplot(data = top_10_over_time, aes(x = testdate2, y = n)) +
+  geom_smooth(aes(color = word), size = 1.25, se = FALSE) +
+  scale_color_manual(values = colors) +
+  theme_classic() +
+  xlab("Date") +
+  ylab("Word Usage") +
+  ggtitle("Top 10 Words Usage Over Time")
+```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+
+```
+
+
+
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 library(lubridate)
+library(plotly)
 # Trying to average to the month level to tease out trends
 prc_month_avg <- prc
 prc_month_avg$Month_Yr <- format(as.Date(prc_month_avg$testdate2), "%Y-%m")
@@ -40,19 +106,25 @@ prc_month_avg <- prc_month_avg%>%
             UX_month = mean(UX),
             Healthcare_month = mean(Healthcare))
 
-# Works and you can see trends. This is the foundation of the trends portion.
-ggplot(data = prc_month_avg, aes(x = Month_Yr, y = Female_STEM_month, group = 1)) +
-  geom_line() +
-  geom_line(aes(y = Users_Not_Microchips_month), color = "blue") +
-  geom_line(aes(y = Healthcare_month), color = "red") +
-  geom_line(aes(y = Self_Driving_Cars_month), color = "green")
-```
-```{r echo=FALSE, warning=FALSE, message=FALSE}
-ggplot(data = prc_month_avg, aes(x = Month_Yr, y = Female_Education_Not_Cybersecurity_month, group = 1)) +
-  geom_line() +
-  geom_line(aes(y = Cutting_Edge_Computing_month), color = "blue") +
-  geom_line(aes(y = US_Cybersecurity_month), color = "red") +
-  geom_line(aes(y = UX_month), color = "green")
+colors <- c("Female_STEM" = "#1b9e77", "Users_Not_Microchips" = "#d95f02", "Healthcare" = "#7570b3", "Self_Driving_Cars" = "#e7298a", "Female_Education_Not_Cybersecurity" = "#66a61e", "Cutting_Edge_Computing" = "#e6ab02", "US_Cybersecurity" = "#a6761d", "UX" = "#666666")
+
+
+pc_plot <- ggplot(data = prc_month_avg, aes(x = parse_date_time(Month_Yr, "ym"), y = Female_STEM_month, group = 1)) +
+  geom_smooth(aes(color = "Female_STEM"), se = FALSE) +
+  geom_smooth(aes(y = Users_Not_Microchips_month, color = "Users_Not_Microchips"), se = FALSE) +
+  geom_smooth(aes(y = Healthcare_month, color = "Healthcare"), se = FALSE) +
+  geom_smooth(aes(y = Self_Driving_Cars_month, color = "Self_Driving_Cars"), se = FALSE) +
+  geom_smooth(aes(y = Female_Education_Not_Cybersecurity_month, color = "Female_Education_Not_Cybersecurity"), se = FALSE) +
+  geom_smooth(aes(y = Cutting_Edge_Computing_month, color = "Cutting_Edge_Computing"), se = FALSE) +
+  geom_smooth(aes(y = US_Cybersecurity_month, color = "US_Cybersecurity"), se = FALSE) +
+  geom_smooth(aes(y = UX_month, color = "UX"), se = FALSE) +
+  theme_classic() +
+  ylab("Category Strength") +
+  xlab("Time") +
+  labs(color = "Legend") +
+  scale_color_manual(values = colors)
+
+ggplotly(pc_plot)
 ```
 
 
