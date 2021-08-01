@@ -109,8 +109,10 @@ So how are we going to solve the problem?
 
 1. Scrape article archives from https://technews.acm.org/ (Dec 2007 to June 2021)  
 2. Do **a lot** of data cleaning  
-3. Get the top 10 most used words and visualize them  
-4. Spice things up with Principle Component Analysis (PCA)  
+3. Get the top 10 most used title words and visualize them  
+4. Spice things up with a Principle Component Analysis (PCA) of the abstracts  
+
+A couple of extra notes here. We're looking at titles here as a shorthand for each article's topic. It's a fairly reasonable assumption that the title of an article will have something to do with the content in it. Our next step after that is to perform a PCA on the article abstracts. The idea here is that the abstracts will give us a more granular picture of the content of each article.  
 
 ### PCA Side-bar  
 ###### *You can skip this section if you don't care about what PCA is or how it works*
@@ -133,23 +135,44 @@ As mentioned earlier, these data have been scraped from https://technews.acm.org
 library(knitr)
 kable(head(abstract$x, 2))
 ```  
+*End Output*  
 
 Yep, it's not the prettiest sight. There's a lot of cleaning to be done in order to pull out dates, titles, and the abstracts. I'm not going to bore you with a full code walk-through of all the cleaning though. Instead, let's both just enjoy the beauty of the finished version:
 
 ```{r warning=FALSE, echo=FALSE}
 mega_abstract %>%
   select(cleantitle, testdate2, cleanab) %>%
-  head() %>%
+  head(2) %>%
   kable()
-```
+```  
+*End Output*  
+
+Alright, now it's time to do some data exploration. Admittedly, there's not a lot of exploration you can do with text data that doesn't stray into analysis outright. The best place to start is to evaluate how well the scraper did and see if we're missing any large chunks of time.  
+
+```{r echo=FALSE}
+testing <- mega_abstract %>%
+  mutate(any_count = ifelse(str_detect(str_to_lower(cleanab), ".*"), 1, 0))
+ggplot(testing, aes(x = testdate2, y = any_count)) +
+  geom_jitter() +
+  theme_classic() +
+  ylab("Exists") +
+  xlab("Date") +
+  ggtitle("The Scraper Missed Some Articles in 2008, 2011, 2013, and 2019")
+```  
+
+Well it's pretty clear from the graph that the scraper was not able to capture everything from the archives. It's also possible that https://technews.acm.org/ didn't publish anything during those periods, but that seems rather unlikely. What's more likely is that the html code changed slightly and broke the scraper. We're going to proceed with this analysis as-is. **It is important to remember that we do have some missing data here though.**  
 
 
-Any major findings from exploration?  
-The scraper did not do a perfect job collecting all the article information. There are occasional instances where nearly a month of data is missing.
-*Go into more detail on what data is missing. Potentially explore* **why** *it's missing.*
+## Results  
+######*Let's analyze some data!*
 
-*There appears to be significant changes over time in the main collections of words.*  
-*Add graphs of trends over time*
+
+
+Markdown code walk-through of method application  
+*May consider just describing method and providing intermediate visuals*  
+
+Discuss initial findings.
+*Still in-progress. Would be a good idea to show trends over time here*
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 # Find the top 10 words that appear in the most articles
@@ -225,13 +248,7 @@ Include link to finished dashboard. Dashboard is not finished at this time.
 
 
 
-## Results
 
-Markdown code walk-through of method application  
-*May consider just describing method and providing intermediate visuals*  
-
-Discuss initial findings.
-*Still in-progress. Would be a good idea to show trends over time here*
 
 ## Finished Dashboard
 
