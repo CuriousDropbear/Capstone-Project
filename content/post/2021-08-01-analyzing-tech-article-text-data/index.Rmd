@@ -75,7 +75,8 @@ ggplotly(pc_plot)
 
 There you go. This is the crown jewel of the project.  
 Wait, you want me to actually explain something to you? I can't just throw up this graph to satisfy the impatient among you?  
-Fine, here are the highlights:  
+Fine, here are the highlights: 
+
 1. Cyber Security has been a scorching hot topic recently and looks like it may continue to be.  
 2. Articles that **ignore** silicon manufacturing and **emphasize** users and identifiers have been consistently strong and appear to be getting stronger.  
 3. Cutting Edge Computing was building steadily until about 2014 when everyone realized that quantum computers were still 10-15 years away and got sad.  
@@ -129,7 +130,8 @@ Quick markdown code walk-through (cliff notes version)
 As mentioned earlier, these data have been scraped from https://technews.acm.org/ and cover a period from December 2007 to June 2021. If you haven't scraped data or dealt with scraped data before, I'll tell you a little secret, it's **incredibly messy.** What, you don't believe me? Take a look at the raw abstracts:
 
 ```{r warning=FALSE, echo=FALSE}
-head(abstract$x, 2)
+library(knitr)
+kable(head(abstract$x, 2))
 ```  
 
 Yep, it's not the prettiest sight. There's a lot of cleaning to be done in order to pull out dates, titles, and the abstracts. I'm not going to bore you with a full code walk-through of all the cleaning though. Instead, let's both just enjoy the beauty of the finished version:
@@ -137,7 +139,8 @@ Yep, it's not the prettiest sight. There's a lot of cleaning to be done in order
 ```{r warning=FALSE, echo=FALSE}
 mega_abstract %>%
   select(cleantitle, testdate2, cleanab) %>%
-  head()
+  head() %>%
+  kable()
 ```
 
 
