@@ -269,30 +269,16 @@ pc_plot <- ggplot(data = prc_month_avg, aes(x = parse_date_time(Month_Yr, "ym"),
 ggplotly(pc_plot)
 ```  
 
+I've selected the first eight principle components for further analysis and named them according to the words that have the biggest impact on them. For example, Self_Driving_Cars is named as such because words like vehicle, car, navigation, drive, autonomous, etc. had the highest impacts on that principle component.
 
-1. Cyber Security has been a scorching hot topic recently and looks like it may continue to be.  
-2. Articles that **ignore** silicon manufacturing and **emphasize** users and identifiers have been consistently strong and appear to be getting stronger.  
-3. Cutting Edge Computing was building steadily until about 2014 when everyone realized that quantum computers were still 10-15 years away and got sad.  
-4. Interest in Cutting Edge Computing recently soared again and appears to have a strong upward trend in tech discussions.  
+The PCA of the abstracts offers us a very different and more granular picture than the top 10 graphs. Here's a list of the take-aways:  
+  1. Cyber Security in the U.S. has become an incredibly important topic and it looks like it will continue to be.  
+  2. Articles that ignore topics related to silicon, manufacturing, engineering, etc. and focus more on the concept of users and identifiers have been consistently strong and have a significant upward trend.  
+  3. Cutting Edge Computing was rising steadily and then it dropped off drastically in 2014, possibly due to a decline in industry interest. Interest in Cutting Edge Computing recovered in 2016 and has been rising again since then.
+  4. Articles focused on Women in academia, but avoid discussing cyber security, had a tumultuous journey. This category started out extremely strong and then saw a massive dip in 2016 and a near full recovery by 2021.  
+  5. The Healthcare category followed a similar path as cyber security, but instead of continuing to rise it dropped off in 2019. This decline is rather puzzling though, as it would be reasonable to expect a surge in this area due to COVID-19.  
+  6. Strangely enough, articles on Self-Driving Cars remained at a constant strength throughout the dataset. I expected content on Self-Driving Cars to gain a significant amount of strength as the data approached 2020.  
+  7. Articles focused on women in STEM started moderately strong and peaked early around 2014 before dropping off sharply. This is an interesting contrast to point 4 where Female_Education_Not_Cybersecurity jumped back up. It's possible that the conversation has shifted away from women in STEM jobs and more towards STEM education paths (*which should ultimately translate into jobs*).  
+  8. The UX category centered around "interaction" and avoided words like vehicles and super computing started exceptionally strong. Unfortunately, this category's strength dropped incredibly fast around 2016 and has since continued to plummet.  
 
-
-
-
-
-
-
-
-
-
-
-```{r echo=FALSE, warning=FALSE, message=FALSE}
-# Find the top 10 words that appear in the most articles
-top_10 <- title_tib %>%
-  distinct(word, .keep_all = TRUE) %>%
-  arrange(desc(total)) %>%
-  head(10)
-top_10 %>%
-  select(word, total) %>%
-  kable()
-  # computer, data, researchers, ai, quantum, research, computing, science, software, tech
-```
+It's easy to see how cyber security will continue to grow in importance and the same with cutting edge computing. I think the biggest shock in the principle component analysis is the downturn of Healthcare, especially since the onset of COVID-19. The world around us constantly changes and while the top 10 analysis and the principle component analysis might not agree on how things change, both agree that things are changing.
