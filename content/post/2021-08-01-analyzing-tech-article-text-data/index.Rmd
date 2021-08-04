@@ -168,7 +168,7 @@ We'll start off by looking at an animated word cloud of all title words on a day
 
 ### Day by Day Word Cloud
 
-![](https://i.imgur.com/9AisQbG.gif)
+![](https://i.imgur.com/EdOn2FP.gif)
 
 It's a little difficult to figure out what appears most often though. "Data" and "computer" are certainly very prominent throughout the animation.\
 Let's look at the top 10 most used title words overall instead. That should help us get a better sense of what the most referenced topics are and how they've changed over time. We're looking at the top 10 title words because generally, an article's title is a good way to figure out what the topic is.
